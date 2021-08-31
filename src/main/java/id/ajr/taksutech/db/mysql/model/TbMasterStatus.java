@@ -14,6 +14,8 @@ import javax.persistence.Table;
 @Table(name = "tb_master_status")
 public class TbMasterStatus implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "tbms_id")
 	private Integer tbms_id;

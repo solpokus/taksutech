@@ -1,8 +1,5 @@
 package id.ajr.taksutech.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,59 +7,50 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import id.ajr.taksutech.db.mysql.model.TbMasterStatus;
-import id.ajr.taksutech.db.mysql.repository.MasterStatusRepository;
-import id.ajr.taksutech.voucher.process.VoucherProcess;
+import id.ajr.taksutech.member.model.ResponseGetMember;
+import id.ajr.taksutech.member.process.MemberProcess;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping("/voucher")
-@Api(description = "APIs eVoucher for Voucher Processing", tags = { "eVoucher" })
-public class VoucherController {
+@RequestMapping("/member")
+@Api(description = "APIs Member for Member Processing", tags = { "Member" })
+public class MemberController {
 
-	private static final Logger logger = LogManager.getLogger(VoucherController.class);
-	private Gson gson = new GsonBuilder().create();
+	private static final Logger logger = LogManager.getLogger(MemberController.class);
 
 	@Autowired
-	VoucherProcess voucherProcess;
-	
+	MemberProcess memberProcess;
 
 	@GetMapping("/")
 	public HttpEntity healthCheck() {
 		// TODO Auto-generated method stub
-		return new ResponseEntity<>("eVoucher API", HttpStatus.OK);
+		return new ResponseEntity<>("Member API", HttpStatus.OK);
 	}
 
-	@GetMapping("/getId")
+	@GetMapping("/getMemberById")
 	public HttpEntity getId(
 			@ApiParam(value = "Request Id", required = true) @RequestHeader(value = "requestId", required = false) String requestId,
 			@ApiParam(value = "Request Time", required = true) @RequestHeader(value = "requestTime", required = false) String requestTime,
-			@ApiParam(value = "Status Id", required = true) @RequestHeader(value = "statusId", required = false) Integer statusId,
-			@ApiParam(value = "English", required = true) @RequestHeader(value = "tbmsEn", required = false) String tbmsEn) {
+			@ApiParam(value = "Member Id", required = true) @RequestHeader(value = "memberId", required = false) Integer memberId) {
 		HttpStatus httpStatus = null;
 
-		HttpEntity<ResponseBody> response = null;
-
 		try {
-			logger.info("Get Status by Id");
+			logger.info("Get Member by Id");
 
-			voucherProcess.getStatus(statusId, tbmsEn);
+			ResponseGetMember response = memberProcess.getMemberById(memberId);
 
 			httpStatus = HttpStatus.OK;
-//			return new ResponseEntity<>("eVoucher API", httpStatus);
+
+			return new ResponseEntity<>(response, httpStatus);
 
 		} catch (Exception e) {
-			logger.error("Get Status by Id - Exception : " + e.getMessage());
+			logger.error("Get Member by Id - Exception : " + e.getMessage());
 			e.printStackTrace();
 
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

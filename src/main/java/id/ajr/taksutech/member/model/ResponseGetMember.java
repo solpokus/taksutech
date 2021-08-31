@@ -1,63 +1,20 @@
-package id.ajr.taksutech.db.mysql.model;
+package id.ajr.taksutech.member.model;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class ResponseGetMember {
 
-@Entity
-@Table(name = "tb_master_member")
-public class TbMasterMember implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@Column(name = "tbmm_id")
-	private Integer tbmm_id;
-
-	@Column(name = "tbmm_create_date")
 	private Timestamp tbmm_create_date;
-
-	@Column(name = "tbmm_update_date")
 	private Timestamp tbmm_update_date;
-
-	@Column(name = "tbmm_status")
 	private Integer tbmm_status;
-
-	@Column(name = "tbmm_email")
 	private String tbmm_email;
-
-	@Column(name = "tbmm_firstname")
 	private String tbmm_firstname;
-
-	@Column(name = "tbmm_lastname")
 	private String tbmm_lastname;
-
-	@Column(name = "tbmm_gender")
 	private String tbmm_gender;
-
-	@Column(name = "tbmm_phone")
 	private String tbmm_phone;
-
-	@Column(name = "tbmm_dob")
 	private Date tbmm_dob;
-
-	@Column(name = "tbmm_last_login")
 	private Timestamp tbmm_last_login;
-
-	public Integer getTbmm_id() {
-		return tbmm_id;
-	}
-
-	public void setTbmm_id(Integer tbmm_id) {
-		this.tbmm_id = tbmm_id;
-	}
 
 	public Timestamp getTbmm_create_date() {
 		return tbmm_create_date;
@@ -137,10 +94,6 @@ public class TbMasterMember implements Serializable {
 
 	public void setTbmm_last_login(Timestamp tbmm_last_login) {
 		this.tbmm_last_login = tbmm_last_login;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }
