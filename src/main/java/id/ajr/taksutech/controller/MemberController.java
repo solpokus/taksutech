@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +49,31 @@ public class MemberController {
 			httpStatus = HttpStatus.OK;
 
 			return new ResponseEntity<>(response, httpStatus);
+
+		} catch (Exception e) {
+			logger.error("Get Member by Id - Exception : " + e.getMessage());
+			e.printStackTrace();
+
+			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<>("eVoucher API", httpStatus);
+	}
+	
+	@PostMapping("/saveMember")
+	public HttpEntity saveMember(
+			@ApiParam(value = "Request Id", required = true) @RequestHeader(value = "requestId", required = false) String requestId,
+			@ApiParam(value = "Request Time", required = true) @RequestHeader(value = "requestTime", required = false) String requestTime) {
+		HttpStatus httpStatus = null;
+
+		try {
+			logger.info("Save New Member");
+
+			memberProcess.saveNewMember();
+
+			httpStatus = HttpStatus.OK;
+
+			return new ResponseEntity<>("SUCCESS", httpStatus);
 
 		} catch (Exception e) {
 			logger.error("Get Member by Id - Exception : " + e.getMessage());

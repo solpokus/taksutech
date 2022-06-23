@@ -16,7 +16,8 @@ import javax.persistence.Table;
 public class TbMasterMember implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
 	@Column(name = "tbmm_id")
 	private Integer tbmm_id;

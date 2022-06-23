@@ -1,6 +1,5 @@
 package id.ajr.taksutech.member.process;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
@@ -22,19 +21,19 @@ public class MemberProcess {
 	private Gson gson = new GsonBuilder().create();
 
 	private static final Logger logger = LogManager.getLogger(MemberProcess.class);
-	
+
 	@Autowired
 	MasterMemberRepository masterMemberRepository;
-	
+
 	public ResponseGetMember getMemberById(Integer tbmmId) {
-		
+
 		ResponseGetMember responseGetMember = new ResponseGetMember();
-		
+
 		Optional<TbMasterMember> optMasterMember = dbFindMasterMemberById(tbmmId);
-		
+
 		TbMasterMember masterMember = new TbMasterMember();
 		masterMember = optMasterMember.get();
-		
+
 		responseGetMember.setTbmm_create_date(masterMember.getTbmm_create_date());
 		responseGetMember.setTbmm_update_date(masterMember.getTbmm_update_date());
 		responseGetMember.setTbmm_status(masterMember.getTbmm_status());
@@ -45,12 +44,30 @@ public class MemberProcess {
 		responseGetMember.setTbmm_phone(masterMember.getTbmm_phone());
 		responseGetMember.setTbmm_dob(masterMember.getTbmm_dob());
 		responseGetMember.setTbmm_last_login(masterMember.getTbmm_last_login());
-		
+
 		return responseGetMember;
 	}
-	
+
 	private Optional<TbMasterMember> dbFindMasterMemberById(Integer tbms_id) {
-		return masterMemberRepository.findById(tbms_id);
+		return masterMemberRepository.findByTbmmId(tbms_id);
+	}
+
+	public void saveNewMember() {
+		saveOrUpdateMember();
+	}
+
+	private void saveOrUpdateMember() {
+		TbMasterMember masterMember = new TbMasterMember();
+
+		masterMember.setTbmm_status(1);
+		masterMember.setTbmm_email("member5@gmail.com");
+		masterMember.setTbmm_firstname("member");
+		masterMember.setTbmm_lastname("5");
+		masterMember.setTbmm_gender("M");
+		masterMember.setTbmm_phone("082189234555");
+		masterMember.setTbmm_dob(new Date());
+
+		masterMemberRepository.saveAndFlush(masterMember);
 	}
 
 }

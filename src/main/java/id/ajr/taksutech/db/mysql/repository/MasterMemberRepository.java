@@ -1,9 +1,16 @@
 package id.ajr.taksutech.db.mysql.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import id.ajr.taksutech.db.mysql.model.TbMasterMember;
 
-public interface MasterMemberRepository extends JpaRepository<TbMasterMember, Integer> {
+@Repository
+public interface MasterMemberRepository extends BaseRepository<TbMasterMember, String> {
+
+	@Query(value = "select * from tb_master_member where tbmm_id = :tbmmId", nativeQuery = true)
+	Optional<TbMasterMember> findByTbmmId(@Param("tbmmId") Integer tbmmId);
 
 }
